@@ -25,7 +25,7 @@ Route::group(['middleware'=>['auth:api']],function (){
 });
 // Route group for guest user only
 Route::group(['middleware'=>['guest:api']],function (){
-         Route::post('register','App\Http\Controllers\Auth\RegisterController');
+//         Route::post('register','App\Http\Controllers\Auth\RegisterController');
 
 });
 

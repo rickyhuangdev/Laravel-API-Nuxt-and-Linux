@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Grimzy\LaravelMysqlSpatial\Eloquent\SpatialTrait;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -11,7 +12,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable ,SpatialTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -28,6 +29,10 @@ class User extends Authenticatable implements JWTSubject
         'location',
         'available_to_hire',
         'formatted_address'
+    ];
+
+    protected $spatialFields = [
+        'location'
     ];
 
     /**
