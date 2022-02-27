@@ -14,6 +14,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//    return $request->user();
+//});
+
+// Route group for authenticated user only
+
+Route::group(['middleware'=>['auth:api']],function (){
+
 });
+// Route group for guest user only
+Route::group(['middleware'=>['guest:api']],function (){
+         Route::post('register','App\Http\Controllers\Auth\RegisterController');
+
+});
+
