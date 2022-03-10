@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Cviebrock\EloquentTaggable\Taggable;
 
 class Design extends Model
 {
-    use HasFactory;
+    use HasFactory, Taggable;
 
     protected $fillable = [
         'user_id',
@@ -21,7 +22,7 @@ class Design extends Model
         'upload_successfully',
         'disk'
     ];
-    protected $appends=[
+    protected $appends = [
         'handle_image'
     ];
 
@@ -40,7 +41,7 @@ class Design extends Model
         ];
     }
 
-    protected function getImagePath($size,$image)
+    protected function getImagePath($size, $image)
     {
 
         return Storage::disk($this->disk)->url("uploads/designs/{$size}/" . $image);
