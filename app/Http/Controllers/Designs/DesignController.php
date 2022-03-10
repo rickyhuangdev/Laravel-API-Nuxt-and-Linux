@@ -12,11 +12,13 @@ class DesignController extends Controller
     //
     public function update(Request $request, $id)
     {
+        $design = Design::findOrFail($id);
+        $this->authorize('update',$design);
         $this->validate($request, [
             'title' => ['required', 'unique:designs,title,' . $id],
             'description' => ['required', 'string', 'min:15', 'max:250'],
         ]);
-        $design = Design::findOrFail($id);
+
         $design->update([
             'title' => $request->title,
             'description' => $request->description,
