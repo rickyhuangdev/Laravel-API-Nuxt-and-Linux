@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Designs;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\DesignResource;
 use App\Models\Design;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -12,7 +13,7 @@ class DesignController extends Controller
     //
     public function update(Request $request, $id)
     {
-        $design = Design::findOrFail($id);
+        $design = Design::find($id);
         $this->authorize('update',$design);
         $this->validate($request, [
             'title' => ['required', 'unique:designs,title,' . $id],
@@ -25,7 +26,7 @@ class DesignController extends Controller
             'slug' => Str::slug($request->title),
             'is_live' => !$design->upload_successfully ? false : $request->is_live
         ]);
-        return response()->json($design, 200);
+        return new DesignResource($design);
 
     }
 }

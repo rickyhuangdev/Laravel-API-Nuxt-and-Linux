@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -42,7 +43,7 @@ class Handler extends ExceptionHandler
 
     public function render($request, Throwable $e)
     {
-        if ($e instanceof AuthenticationException) {
+        if ($e instanceof AuthenticationException || $e instanceof AccessDeniedHttpException) {
             if ($request->expectsJson()) {
                 return response()->json([
                     "errors" => [
