@@ -32,4 +32,5 @@ Route::group(['middleware'=>['guest:api']],function (){
 Route::post('register','App\Http\Controllers\Auth\RegisterController@register');
 Route::post('verification/verify','App\Http\Controllers\Auth\VerificationController@verify')->name('verification.verify');
 Route::post('verification/resend','App\Http\Controllers\Auth\VerificationController@resend');
+Route::post('login','App\Http\Controllers\Auth\LoginController@login');
 });
