@@ -35,4 +35,6 @@ Route::post('register','App\Http\Controllers\Auth\RegisterController@register');
 Route::post('verification/verify','App\Http\Controllers\Auth\VerificationController@verify')->name('verification.verify');
 Route::post('verification/resend','App\Http\Controllers\Auth\VerificationController@resend');
 Route::post('login','App\Http\Controllers\Auth\LoginController@login');
+Route::post('reset','App\Http\Controllers\Auth\ResetPassword@reset');
+Route::post('password/email','App\Http\Controllers\Auth\ForgotPasswordController@sendResetLinkEmail');
 });
