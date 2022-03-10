@@ -22,6 +22,8 @@ use Illuminate\Support\Facades\Route;
 //        Route::get('/user-profile', [AuthController::class, 'userProfile']);
 //    });
 //});
+Route::get('me','App\Http\Controllers\User\MeController@getMe');
+
 
 Route::group(['middleware'=>['auth:api']],function (){
     Route::post('logout','App\Http\Controllers\Auth\LoginController@logout');
