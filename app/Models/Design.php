@@ -21,23 +21,28 @@ class Design extends Model
         'upload_successfully',
         'disk'
     ];
+    protected $appends=[
+        'handle_image'
+    ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function getImageAttribute($value)
+    public function getHandleImageAttribute()
     {
+
         return [
-            'thumbnail' => $this->getImagePath('thumbnail', $value),
-            'large' => $this->getImagePath('large', $value),
-            'original' => $this->getImagePath('original', $value),
+            'thumbnail' => $this->getImagePath('thumbnail', $this->image),
+            'large' => $this->getImagePath('large', $this->image),
+            'original' => $this->getImagePath('original', $this->image),
         ];
     }
 
-    protected function getImagePath($size, $image)
+    protected function getImagePath($size,$image)
     {
+
         return Storage::disk($this->disk)->url("uploads/designs/{$size}/" . $image);
     }
 }

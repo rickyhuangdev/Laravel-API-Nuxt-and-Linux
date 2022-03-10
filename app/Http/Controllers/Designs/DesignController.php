@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\DesignResource;
 use App\Models\Design;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class DesignController extends Controller
@@ -13,7 +14,7 @@ class DesignController extends Controller
     //
     public function update(Request $request, $id)
     {
-        $design = Design::find($id);
+        $design = Design::findOrFail($id);
         $this->authorize('update',$design);
         $this->validate($request, [
             'title' => ['required', 'unique:designs,title,' . $id],
@@ -28,5 +29,18 @@ class DesignController extends Controller
         ]);
         return new DesignResource($design);
 
+    }
+
+    public function destroy(Request $request, $id)
+    {
+        $design = Design::findOrFail($id);
+        $this->authorize('update',$design);
+        //delete file
+        foreach (['thumbnail','large','original'] as $size){
+            if(Storage::disk($design->disk)->exists("uploads/designs/${size}/".$design->image)){
+                Storage::disk($design->disk)->delete("uploads/designs/${size}/".$design->image);
+            }
+        }
+        $design->delete();
     }
 }
