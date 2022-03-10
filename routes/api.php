@@ -27,6 +27,9 @@ Route::get('me', 'App\Http\Controllers\User\MeController@getMe');
 
 Route::group(['middleware' => ['auth:api']], function () {
     Route::post('logout', 'App\Http\Controllers\Auth\LoginController@logout');
+
+    Route::put('settings/profile','App\Http\Controllers\User\SettingController@updateProfile');
+    Route::put('settings/password','App\Http\Controllers\User\SettingController@updatePassword');
 });
 
 
@@ -37,4 +40,5 @@ Route::group(['middleware' => ['guest:api']], function () {
     Route::post('login', 'App\Http\Controllers\Auth\LoginController@login');
     Route::post('password/email', 'App\Http\Controllers\Auth\ForgotPasswordController@sendResetLinkEmail');
     Route::post('password/reset', 'App\Http\Controllers\Auth\ResetPasswordController@reset');
+
 });
