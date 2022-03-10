@@ -30,6 +30,9 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     Route::put('settings/profile','App\Http\Controllers\User\SettingController@updateProfile');
     Route::put('settings/password','App\Http\Controllers\User\SettingController@updatePassword');
+
+    //upload designs
+    Route::post('designs','App\Http\Controllers\Designs\UploadController@upload');
 });
 
 
