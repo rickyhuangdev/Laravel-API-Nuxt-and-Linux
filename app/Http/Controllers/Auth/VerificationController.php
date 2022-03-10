@@ -31,15 +31,21 @@ class VerificationController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('signed')->only('verify');
+        // $this->middleware('signed')->only('verify');
         $this->middleware('throttle:6,1')->only('verify', 'resend');
     }
 
-    public function verify(Request $request, User $user)
+    public function verify(Request $request)
     {
         if (!URL::hasValidSignature($request)) {
             return response()->json(["errors" => [
                 "message" => "Invalid verification link"
+            ]], 422);
+        }
+        $user = User::findOrFail($request->user);
+        if (!$user) {
+            return response()->json(["errors" => [
+                "message" => "No User could be found with this email address"
             ]], 422);
         }
         if ($user->hasVerifiedEmail()) {
