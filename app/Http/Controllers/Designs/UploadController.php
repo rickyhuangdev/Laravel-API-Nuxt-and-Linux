@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Designs;
 use App\Http\Controllers\Controller;
 use App\Jobs\UploadImage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class UploadController extends Controller
 {

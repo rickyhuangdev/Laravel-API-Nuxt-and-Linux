@@ -9,7 +9,10 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
+use Intervention\Image\File;
+
 class UploadImage implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
@@ -39,17 +42,32 @@ class UploadImage implements ShouldQueue
     {
         //
         $disk = $this->design->disk;
-        $original_file = storage_path().'/uploads/original/'.$this->design->image;
-        try{
-            Image::make($original_file)->fit(800,600,function ($constraint){
-                $constraint->aspectRation();
-            })->save($large = storage_path('uploads/large/'.$this->design->image));
+        $filename = $this->design->image;
+        $original_file = storage_path() . '/uploads/original/' . $filename;
+        try {
+            Image::make($original_file)->fit(800, 600, function ($constraint) {
+                $constraint->upsize();
+            })->save($large = storage_path('uploads/large/' . $filename));
             //thumbnail
-            Image::make($original_file)->fit(250,200,function ($constraint){
-                $constraint->aspectRation();
-            })->save($large = storage_path('uploads/thumbnail/'.$this->design->image));
+            Image::make($original_file)->fit(250, 200, function ($constraint) {
+                $constraint->upsize();
+            })->save($thumbnail = storage_path('uploads/thumbnail/' . $filename));
 
-        }catch (\Exception $exception){
+            //store images to permanent disk
+            if (Storage::disk($disk)->put('uploads/designs/original/' . $filename, fopen($original_file, 'r+'))) {
+                unlink($original_file);
+            };
+            if (Storage::disk($disk)->put('uploads/designs/large/' . $filename, fopen($large, 'r+'))) {
+                unlink($large);
+            };
+            if (Storage::disk($disk)->put('uploads/designs/thumbnail/' . $filename, fopen($thumbnail, 'r+'))) {
+                unlink($thumbnail);
+            };
+            //update database
+            $this->design->update([
+                'upload_successfully' => true
+            ]);
+        } catch (\Exception $exception) {
             \Illuminate\Log\Logger::error($exception->getMessage());
 
         }
