@@ -12,6 +12,12 @@ use Illuminate\Support\Str;
 class DesignController extends Controller
 {
     //
+    public function index()
+    {
+        $designs = Design::all();
+        return DesignResource::collection($designs);
+    }
+
     public function update(Request $request, $id)
     {
         $design = Design::findOrFail($id);

@@ -23,6 +23,8 @@ use Illuminate\Support\Facades\Route;
 //    });
 //});
 Route::get('me', 'App\Http\Controllers\User\MeController@getMe');
+Route::get('designs','App\Http\Controllers\Designs\DesignController@index');
+Route::get('users','App\Http\Controllers\User\UserController@index');
 
 
 Route::group(['middleware' => ['auth:api']], function () {
