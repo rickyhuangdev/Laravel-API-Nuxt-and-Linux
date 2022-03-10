@@ -49,9 +49,9 @@ class VerificationController extends Controller
         }
         $user->markEmailAsVerified();
         event(new Verified($user));
-        return response()->json(["errors" => [
+        return response()->json([
             "message" => "Email successfully verified"
-        ]], 200);
+        ], 200);
     }
 
     public function resend(Request $request)
