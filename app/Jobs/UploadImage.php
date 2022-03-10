@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use Intervention\Image\File;
@@ -68,7 +69,7 @@ class UploadImage implements ShouldQueue
                 'upload_successfully' => true
             ]);
         } catch (\Exception $exception) {
-            \Illuminate\Log\Logger::error($exception->getMessage());
+            log::error($exception->getMessage());
 
         }
     }
