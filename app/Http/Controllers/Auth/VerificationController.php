@@ -56,6 +56,18 @@ class VerificationController extends Controller
 
     public function resend(Request $request)
     {
-
+        $this->validate($request, [
+            'email' => ['email', 'required']
+        ]);
+        $user = User::where('email', $request->email)->first();
+        if (!$user) {
+            return response()->json(["errors" => [
+                "email" => "No User could be found with this email address"
+            ]], 422);
+        }
+        $user->sendEmailVerificationNotification();
+        return response()->json([
+            "status" => "verification link resent"
+        ]);
     }
 }

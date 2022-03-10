@@ -21,4 +21,5 @@ class VerifyEmail extends \Illuminate\Auth\Notifications\VerifyEmail
         );
         return str_replace(url('/api') , $appUrl, $url);
     }
+
 }
