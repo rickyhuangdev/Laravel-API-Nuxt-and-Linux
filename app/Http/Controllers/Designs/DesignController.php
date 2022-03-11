@@ -26,9 +26,15 @@ class DesignController extends Controller
         return DesignResource::collection($designs);
     }
 
+    public function findDesign($id)
+    {
+        $design = $this->designs->find($id);
+        return new DesignResource($design);
+    }
+
     public function update(Request $request, $id)
     {
-        $design = Design::findOrFail($id);
+        $design = $this->designs->find($id);
         $this->authorize('update', $design);
         $this->validate($request, [
             'title' => ['required', 'unique:designs,title,' . $id],
@@ -36,21 +42,21 @@ class DesignController extends Controller
             'tags' => ['required']
         ]);
 
-        $design->update([
+        $this->designs->update($id, [
             'title' => $request->title,
             'description' => $request->description,
             'slug' => Str::slug($request->title),
             'is_live' => !$design->upload_successfully ? false : $request->is_live
         ]);
         //apply the tag
-        $design->retag($request->tags);
+        $this->designs->applyTags($id, $request->tags);
         return new DesignResource($design);
 
     }
 
     public function destroy(Request $request, $id)
     {
-        $design = Design::findOrFail($id);
+        $design = $this->designs->find($id);
         $this->authorize('update', $design);
         //delete file
         foreach (['thumbnail', 'large', 'original'] as $size) {
@@ -58,6 +64,8 @@ class DesignController extends Controller
                 Storage::disk($design->disk)->delete("uploads/designs/${size}/" . $design->image);
             }
         }
-        $design->delete();
+        $this->designs->delete();
+
+        return response()->json(['message' => 'Record Successful deleted'], 200);
     }
 }

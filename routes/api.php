@@ -23,8 +23,13 @@ use Illuminate\Support\Facades\Route;
 //    });
 //});
 Route::get('me', 'App\Http\Controllers\User\MeController@getMe');
+//get designs
 Route::get('designs','App\Http\Controllers\Designs\DesignController@index');
+//get user
 Route::get('users','App\Http\Controllers\User\UserController@index');
+//find design by id
+Route::get('designs/{id}','App\Http\Controllers\Designs\DesignController@findDesign');
+
 
 
 Route::group(['middleware' => ['auth:api']], function () {
