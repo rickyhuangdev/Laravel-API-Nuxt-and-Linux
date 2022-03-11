@@ -21,7 +21,8 @@ class Design extends Model
         'close_to_comment',
         'is_live',
         'upload_successfully',
-        'disk'
+        'disk',
+        'team_id'
     ];
     protected $appends = [
         'handle_image'
@@ -37,6 +38,10 @@ class Design extends Model
         return $this->morphMany(Comment::class, 'commentable')->orderBy('created_at', 'asc');
     }
 
+    public function team()
+    {
+        return $this->belongsTo(Team::class);
+    }
     public function getHandleImageAttribute()
     {
 

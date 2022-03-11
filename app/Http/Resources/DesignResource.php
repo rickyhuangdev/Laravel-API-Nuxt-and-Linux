@@ -34,8 +34,12 @@ class DesignResource extends JsonResource
                 'updated_at_human' => $this->updated_at->diffForHumans(),
                 'updated_at' => $this->created_at
             ],
+            'team' => $this->team ? [
+                'name' => $this->team->name,
+                'slug' => $this->team->slug,
+            ] : null,
             'comments' => CommentResource::collection($this->whenLoaded('comments')),
-            'likes_count'=>$this->likes()->count()
+            'likes_count' => $this->likes()->count()
         ];
     }
 }

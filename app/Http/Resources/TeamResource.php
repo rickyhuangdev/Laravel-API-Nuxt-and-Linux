@@ -21,6 +21,7 @@ class TeamResource extends JsonResource
             'total_members' => $this->members->count(),
             'owner' => new UserResource($this->owner),
             'members' => UserResource::collection($this->members),
+            'designs' => DesignResource::collection($this->designs),
             'created_at_dates' => [
                 'created_at_human' => $this->created_at->diffForHumans(),
                 'created_at' => $this->created_at
