@@ -61,6 +61,13 @@ class Handler extends ExceptionHandler
                 ], 403);
             }
         });
+        $this->renderable(function (ModelNotDefined $e, $request) {
+            if ($request->is('api/*')) {
+                return response()->json([
+                    'message' => 'No model defined.'
+                ], 500);
+            }
+        });
 
 
     }
