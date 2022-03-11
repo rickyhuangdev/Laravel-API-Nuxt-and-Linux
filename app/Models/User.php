@@ -70,6 +70,7 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     {
         $this->notify(new VerifyEmail);
     }
+
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new ResetPassword($token));
@@ -78,5 +79,10 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     public function designs()
     {
         return $this->hasMany(Design::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 }
