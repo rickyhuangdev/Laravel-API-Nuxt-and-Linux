@@ -45,6 +45,8 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     //create comment
     Route::post('/designs/{designId}/comments','App\Http\Controllers\Designs\CommentController@store');
+    Route::put('/comments/{id}','App\Http\Controllers\Designs\CommentController@update');
+    Route::delete('/comments/{id}','App\Http\Controllers\Designs\CommentController@destroy');
 });
 
 

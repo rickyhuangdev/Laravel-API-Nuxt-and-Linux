@@ -7,7 +7,7 @@ use App\Repositories\Contracts\IBase;
 use App\Repositories\Criteria\ICriteria;
 use Illuminate\Support\Arr;
 
-abstract class BaseRepository implements IBase,ICriteria
+abstract class BaseRepository implements IBase, ICriteria
 {
     protected $model;
 
@@ -59,7 +59,7 @@ abstract class BaseRepository implements IBase,ICriteria
     public function delete($id)
     {
         $record = $this->find($id);
-        return $record->delete;
+        return $record->delete();
     }
 
     /**
