@@ -44,6 +44,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::delete('designs/{id}','App\Http\Controllers\Designs\DesignController@destroy');
     //like and unlike
     Route::post('designs/{id}/like','App\Http\Controllers\Designs\DesignController@like');
+    Route::get('designs/{id}/liked','App\Http\Controllers\Designs\DesignController@checkIfUserHasLiked');
 
     //create comment
     Route::post('/designs/{designId}/comments','App\Http\Controllers\Designs\CommentController@store');

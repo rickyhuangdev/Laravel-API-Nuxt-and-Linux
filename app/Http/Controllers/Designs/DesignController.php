@@ -76,6 +76,13 @@ class DesignController extends Controller
     public function like($id)
     {
         $this->designs->like($id);
-        return response()->json(['message'=>'Successful']);
+        return response()->json(['message' => 'Successful']);
     }
+
+    public function checkIfUserHasLiked($designId): \Illuminate\Http\JsonResponse
+    {
+        $isLiked = $this->designs->isLikedByUser($designId);
+        return response()->json(['liked' => $isLiked]);
+    }
+
 }
