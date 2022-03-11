@@ -26,7 +26,7 @@ class DesignController extends Controller
 
     public function index()
     {
-        $designs = $this->designs->withCriteria([new LatestFirst(), new IsLive(), new EagerLoad(['user','comments'])])->all();
+        $designs = $this->designs->withCriteria([new LatestFirst(), new IsLive(), new EagerLoad(['user', 'comments'])])->all();
         return DesignResource::collection($designs);
     }
 
@@ -68,8 +68,14 @@ class DesignController extends Controller
                 Storage::disk($design->disk)->delete("uploads/designs/${size}/" . $design->image);
             }
         }
-        $this->designs->delete();
+        $this->designs->delete($id);
 
         return response()->json(['message' => 'Record Successful deleted'], 200);
+    }
+
+    public function like($id)
+    {
+        $this->designs->like($id);
+        return response()->json(['message'=>'Successful']);
     }
 }
