@@ -12,4 +12,14 @@ class InvitationRepository extends BaseRepository implements IInvitation
     {
         return Invitation::class;
     }
+
+    public function addUserToTeam($team, $use_id)
+    {
+        $team->members()->attach($use_id);
+    }
+
+    public function removeUserFromTeam($team, $use_id)
+    {
+        $team->members()->detach($use_id);
+    }
 }
