@@ -14,14 +14,15 @@ class Team extends Model
         'owner_id',
         'slug'
     ];
+
     protected static function boot()
     {
         parent::boot();
-        static::created(function ($team){
+        static::created(function ($team) {
 //            auth()->user()->teams()->attach($team->id);
             $team->members()->attach(auth()->id());
         });
-        static::deleting(function ($team){
+        static::deleting(function ($team) {
 //            auth()->user()->teams()->attach($team->id);
             $team->members()->sync([]);
         });
@@ -45,5 +46,15 @@ class Team extends Model
     public function hasUser(User $user)
     {
         return (bool)$this->members()->where('user_id', $user)->first();
+    }
+
+    public function invitation()
+    {
+        return $this->hasMany(Invitation::class);
+    }
+
+    public function hasPendingInvite($email)
+    {
+        return (bool)$this->invitation()->where('recipient_email', $email)->count();
     }
 }

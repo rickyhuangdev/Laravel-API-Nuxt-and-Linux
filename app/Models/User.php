@@ -100,4 +100,9 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     {
         return (bool)$this->teams()->where('id', $team->id)->where('owner_id', $this->id)->count();
     }
+
+    public function invitations()
+    {
+        return $this->hasMany(Invitation::class,'recipient_email','email');
+    }
 }
