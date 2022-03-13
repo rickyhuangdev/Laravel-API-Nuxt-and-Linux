@@ -24,7 +24,7 @@ class DesignController extends Controller
         $this->designs = $designs;
     }
 
-    public function index()
+    public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
         $designs = $this->designs->withCriteria([new LatestFirst(), new IsLive(), new EagerLoad(['user', 'comments'])])->all();
         return DesignResource::collection($designs);
@@ -36,7 +36,7 @@ class DesignController extends Controller
         return new DesignResource($design);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $id): DesignResource
     {
         $design = $this->designs->find($id);
         $this->authorize('update', $design);
@@ -60,7 +60,7 @@ class DesignController extends Controller
 
     }
 
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request, $id): \Illuminate\Http\JsonResponse
     {
         $design = $this->designs->find($id);
         $this->authorize('update', $design);
@@ -75,7 +75,7 @@ class DesignController extends Controller
         return response()->json(['message' => 'Record Successful deleted'], 200);
     }
 
-    public function like($id)
+    public function like($id): \Illuminate\Http\JsonResponse
     {
         $this->designs->like($id);
         return response()->json(['message' => 'Successful']);
@@ -88,21 +88,27 @@ class DesignController extends Controller
     }
 
 
-    public function search(Request $request)
+    public function search(Request $request): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
         $designs = $this->designs->search($request);
         return DesignResource::collection($designs);
     }
 
-    public function findBySlug($slug)
+    public function findBySlug($slug): DesignResource
     {
         $design = $this->designs->withCriteria([new IsLive()])->findWhereFirst('slug', $slug);
         return new DesignResource($design);
     }
 
-    public function getForTeam($teamId)
+    public function getForTeam($teamId): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
         $designs = $this->designs->withCriteria([new IsLive()])->findWhere('team_id', $teamId);
+        return DesignResource::collection($designs);
+    }
+
+    public function getForUser($userId): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    {
+        $designs = $this->designs->withCriteria([new IsLive()])->findWhere('user_id', $userId);
         return DesignResource::collection($designs);
     }
 }
