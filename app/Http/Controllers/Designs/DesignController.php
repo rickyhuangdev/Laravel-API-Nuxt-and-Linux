@@ -99,4 +99,10 @@ class DesignController extends Controller
         $design = $this->designs->withCriteria([new IsLive()])->findWhereFirst('slug', $slug);
         return new DesignResource($design);
     }
+
+    public function getForTeam($teamId)
+    {
+        $designs = $this->designs->withCriteria([new IsLive()])->findWhere('team_id', $teamId);
+        return DesignResource::collection($designs);
+    }
 }

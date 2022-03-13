@@ -34,6 +34,7 @@ Route::get('designs/slug/{slug}', 'App\Http\Controllers\Designs\DesignController
 
 // team slug
 Route::get('teams/slug/{slug}', 'App\Http\Controllers\Teams\TeamsController@findBySlug');
+Route::get('teams/{id}/designs', 'App\Http\Controllers\Designs\DesignController@getForTeam');
 //search design
 Route::get('search/designs','App\Http\Controllers\Designs\DesignController@search');
 Route::get('search/designers','App\Http\Controllers\User\UserController@search');
