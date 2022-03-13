@@ -12,7 +12,7 @@ class Chat extends Model
 
     public function participants()
     {
-        return $this->belongsTo(User::class, 'participants');
+        return $this->belongsToMany(User::class, 'participants');
     }
 
     public function messages()

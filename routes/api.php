@@ -64,11 +64,11 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('invitation/{id}/respond', 'App\Http\Controllers\Teams\InvitationsController@respond');
     Route::delete('invitation/{id}', 'App\Http\Controllers\Teams\InvitationsController@destroy');
     //chats
-    Route::post('chats', 'App\Http\Controllers\Chats\ChatController@sendMessage');
-    Route::get('chats', 'App\Http\Controllers\Chats\ChatController@getUserChats');
-    Route::get('chats/{id}/messages', 'App\Http\Controllers\Chats\ChatController@getChatMessages');
-    Route::put('chats/{id}/markAsRead', 'App\Http\Controllers\Chats\ChatController@markAsRead');
-    Route::delete('messages/{id}', 'App\Http\Controllers\Chats\ChatController@destroyMessage');
+    Route::post('chats', 'App\Http\Controllers\Chat\ChatController@sendMessage');
+    Route::get('chats', 'App\Http\Controllers\Chat\ChatController@getUserChats');
+    Route::get('chats/{id}/messages', 'App\Http\Controllers\Chat\ChatController@getChatMessages');
+    Route::put('chats/{id}/markAsRead', 'App\Http\Controllers\Chat\ChatController@markAsRead');
+    Route::delete('messages/{id}', 'App\Http\Controllers\Chat\ChatController@destroyMessage');
 
 });
 
