@@ -66,11 +66,17 @@ class ChatController extends Controller
 
     public function markAsRead($id)
     {
-
+        $chat = $this->chats->find($id);
+        $chat->markAsReadForUser(auth()->id());
+        return response()->json(['message' => 'successful'], 200);
     }
 
     public function destroyMessage($id)
     {
+        $message = $this->messages->find($id);
+        $this->authorize('delete',$message);
+        $message->delete();
+        return response()->json(['message' => 'Deleted successful'], 200);
 
     }
 }
