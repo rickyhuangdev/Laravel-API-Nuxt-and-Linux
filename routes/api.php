@@ -33,6 +33,7 @@ Route::get('designs/{id}', 'App\Http\Controllers\Designs\DesignController@findDe
 Route::get('teams/slug/{slug}', 'App\Http\Controllers\Teams\TeamsController@findBySlug');
 //search design
 Route::get('search/designs','App\Http\Controllers\Designs\DesignController@search');
+Route::get('search/designers','App\Http\Controllers\User\UserController@search');
 Route::group(['middleware' => ['auth:api']], function () {
     Route::post('logout', 'App\Http\Controllers\Auth\LoginController@logout');
 
