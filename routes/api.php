@@ -24,45 +24,51 @@ use Illuminate\Support\Facades\Route;
 //});
 Route::get('me', 'App\Http\Controllers\User\MeController@getMe');
 //get designs
-Route::get('designs','App\Http\Controllers\Designs\DesignController@index');
+Route::get('designs', 'App\Http\Controllers\Designs\DesignController@index');
 //get user
-Route::get('users','App\Http\Controllers\User\UserController@index');
+Route::get('users', 'App\Http\Controllers\User\UserController@index');
 //find design by id
-Route::get('designs/{id}','App\Http\Controllers\Designs\DesignController@findDesign');
+Route::get('designs/{id}', 'App\Http\Controllers\Designs\DesignController@findDesign');
 // team slug
-Route::get('teams/slug/{slug}','App\Http\Controllers\Teams\TeamsController@findBySlug');
+Route::get('teams/slug/{slug}', 'App\Http\Controllers\Teams\TeamsController@findBySlug');
 
 Route::group(['middleware' => ['auth:api']], function () {
     Route::post('logout', 'App\Http\Controllers\Auth\LoginController@logout');
 
-    Route::put('settings/profile','App\Http\Controllers\User\SettingController@updateProfile');
-    Route::put('settings/password','App\Http\Controllers\User\SettingController@updatePassword');
+    Route::put('settings/profile', 'App\Http\Controllers\User\SettingController@updateProfile');
+    Route::put('settings/password', 'App\Http\Controllers\User\SettingController@updatePassword');
 
     //upload designs
-    Route::post('designs','App\Http\Controllers\Designs\UploadController@upload');
-    Route::put('designs/{id}','App\Http\Controllers\Designs\DesignController@update');
-    Route::delete('designs/{id}','App\Http\Controllers\Designs\DesignController@destroy');
+    Route::post('designs', 'App\Http\Controllers\Designs\UploadController@upload');
+    Route::put('designs/{id}', 'App\Http\Controllers\Designs\DesignController@update');
+    Route::delete('designs/{id}', 'App\Http\Controllers\Designs\DesignController@destroy');
     //like and unlike
-    Route::post('designs/{id}/like','App\Http\Controllers\Designs\DesignController@like');
-    Route::get('designs/{id}/liked','App\Http\Controllers\Designs\DesignController@checkIfUserHasLiked');
+    Route::post('designs/{id}/like', 'App\Http\Controllers\Designs\DesignController@like');
+    Route::get('designs/{id}/liked', 'App\Http\Controllers\Designs\DesignController@checkIfUserHasLiked');
 
     //create comment
-    Route::post('/designs/{designId}/comments','App\Http\Controllers\Designs\CommentController@store');
-    Route::put('/comments/{id}','App\Http\Controllers\Designs\CommentController@update');
-    Route::delete('/comments/{id}','App\Http\Controllers\Designs\CommentController@destroy');
+    Route::post('/designs/{designId}/comments', 'App\Http\Controllers\Designs\CommentController@store');
+    Route::put('/comments/{id}', 'App\Http\Controllers\Designs\CommentController@update');
+    Route::delete('/comments/{id}', 'App\Http\Controllers\Designs\CommentController@destroy');
     //teams
-    Route::post('teams','App\Http\Controllers\Teams\TeamsController@store');
-    Route::get('teams/{id}','App\Http\Controllers\Teams\TeamsController@findById');
-    Route::get('teams','App\Http\Controllers\Teams\TeamsController@index');
-    Route::get('users/teams','App\Http\Controllers\Teams\TeamsController@fetchUserTeams');
-    Route::put('teams/{id}','App\Http\Controllers\Teams\TeamsController@update');
-    Route::delete('teams/{id}','App\Http\Controllers\Teams\TeamsController@destroy');
-    Route::delete('teams/{id}/user/{user_id}','App\Http\Controllers\Teams\TeamsController@removeFromTeam');
+    Route::post('teams', 'App\Http\Controllers\Teams\TeamsController@store');
+    Route::get('teams/{id}', 'App\Http\Controllers\Teams\TeamsController@findById');
+    Route::get('teams', 'App\Http\Controllers\Teams\TeamsController@index');
+    Route::get('users/teams', 'App\Http\Controllers\Teams\TeamsController@fetchUserTeams');
+    Route::put('teams/{id}', 'App\Http\Controllers\Teams\TeamsController@update');
+    Route::delete('teams/{id}', 'App\Http\Controllers\Teams\TeamsController@destroy');
+    Route::delete('teams/{id}/user/{user_id}', 'App\Http\Controllers\Teams\TeamsController@removeFromTeam');
     //invitations
-    Route::post('invitation/{teamId}','App\Http\Controllers\Teams\InvitationsController@invite');
-    Route::post('invitation/{id}/resend','App\Http\Controllers\Teams\InvitationsController@resend');
-    Route::post('invitation/{id}/respond','App\Http\Controllers\Teams\InvitationsController@respond');
-    Route::delete('invitation/{id}','App\Http\Controllers\Teams\InvitationsController@destroy');
+    Route::post('invitation/{teamId}', 'App\Http\Controllers\Teams\InvitationsController@invite');
+    Route::post('invitation/{id}/resend', 'App\Http\Controllers\Teams\InvitationsController@resend');
+    Route::post('invitation/{id}/respond', 'App\Http\Controllers\Teams\InvitationsController@respond');
+    Route::delete('invitation/{id}', 'App\Http\Controllers\Teams\InvitationsController@destroy');
+    //chats
+    Route::post('chats', 'App\Http\Controllers\Chats\ChatController@sendMessage');
+    Route::get('chats', 'App\Http\Controllers\Chats\ChatController@getUserChats');
+    Route::get('chats/{id}/messages', 'App\Http\Controllers\Chats\ChatController@getChatMessages');
+    Route::put('chats/{id}/markAsRead', 'App\Http\Controllers\Chats\ChatController@markAsRead');
+    Route::delete('messages/{id}', 'App\Http\Controllers\Chats\ChatController@destroyMessage');
 
 });
 
