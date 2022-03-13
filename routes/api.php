@@ -29,6 +29,9 @@ Route::get('designs', 'App\Http\Controllers\Designs\DesignController@index');
 Route::get('users', 'App\Http\Controllers\User\UserController@index');
 //find design by id
 Route::get('designs/{id}', 'App\Http\Controllers\Designs\DesignController@findDesign');
+//find design by slug
+Route::get('designs/slug/{slug}', 'App\Http\Controllers\Designs\DesignController@findBySlug');
+
 // team slug
 Route::get('teams/slug/{slug}', 'App\Http\Controllers\Teams\TeamsController@findBySlug');
 //search design

@@ -52,7 +52,7 @@ class DesignController extends Controller
             'description' => $request->description,
             'slug' => Str::slug($request->title),
             'is_live' => !$design->upload_successfully ? false : $request->is_live,
-            'team'=>$request->team,
+            'team' => $request->team,
         ]);
         //apply the tag
         $this->designs->applyTags($id, $request->tags);
@@ -92,5 +92,11 @@ class DesignController extends Controller
     {
         $designs = $this->designs->search($request);
         return DesignResource::collection($designs);
+    }
+
+    public function findBySlug($slug)
+    {
+        $design = $this->designs->withCriteria([new IsLive()])->findWhereFirst('slug', $slug);
+        return new DesignResource($design);
     }
 }
