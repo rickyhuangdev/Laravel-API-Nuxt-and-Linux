@@ -4,6 +4,7 @@ namespace App\Repositories\Eloquent;
 
 use App\Models\Design;
 use App\Repositories\Contracts\IDesign;
+use Illuminate\Http\Request;
 
 class DesignRepository extends BaseRepository implements IDesign
 {
@@ -40,6 +41,32 @@ class DesignRepository extends BaseRepository implements IDesign
         $design = $this->model->findOrFail($designId);
         return $design->isLikedByUser(auth()->id());
 
+    }
+
+    public function search(Request $request)
+    {
+        $query = (new $this->model)->newQuery();
+        $query->where('is_live', true);
+        if ($request->has_comments) {
+            $query->has('comments');
+        }
+        if ($request->has_team) {
+            $query->has('team');
+        }
+        if ($request->q) {
+            $query->where(function ($q) use ($request) {
+                $q->where('title', 'like', '%' . $request->q . '%')
+                    ->orWhere('description', 'like', '%' . $request->q . '%');
+            });
+        }
+        if ($request->orderBy === 'likes') {
+            $query->withCount('likes');
+            $query->orderByDesc('likes_count');
+        } else {
+            $query->latest();
+        }
+
+        return $query->get();
     }
 
 }

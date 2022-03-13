@@ -31,7 +31,8 @@ Route::get('users', 'App\Http\Controllers\User\UserController@index');
 Route::get('designs/{id}', 'App\Http\Controllers\Designs\DesignController@findDesign');
 // team slug
 Route::get('teams/slug/{slug}', 'App\Http\Controllers\Teams\TeamsController@findBySlug');
-
+//search design
+Route::get('search/designs','App\Http\Controllers\Designs\DesignController@search');
 Route::group(['middleware' => ['auth:api']], function () {
     Route::post('logout', 'App\Http\Controllers\Auth\LoginController@logout');
 
