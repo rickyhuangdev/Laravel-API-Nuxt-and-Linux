@@ -20,6 +20,7 @@ class UserResource extends JsonResource
             $this->mergeWhen(auth()->check() && auth()->id === $this->id, [
                 'email' => $this->email,
             ]),
+            'photo_url'=>$this->photo_url,
             'create_dates' => [
                 'created_at_human' => $this->created_at->diffForHumans()
             ],
