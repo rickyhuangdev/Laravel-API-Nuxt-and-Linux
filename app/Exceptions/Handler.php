@@ -43,7 +43,7 @@ class Handler extends ExceptionHandler
         $this->renderable(function (NotFoundHttpException $e, $request) {
             if ($request->is('api/*')) {
                 return response()->json([
-                    'message' => 'Record not found.'
+                    'message' => "We cannot found any records"
                 ], 404);
             }
         });
@@ -79,6 +79,15 @@ class Handler extends ExceptionHandler
                 return response()->json([
                     "errors" => [
                         "message" => "You are not authorized to access the resource"
+                    ]
+                ], 403);
+            }
+        }
+        if ($e instanceof ModelNotDefined) {
+            if ($request->expectsJson()) {
+                return response()->json([
+                    "errors" => [
+                        "message" => "We cannot found any record"
                     ]
                 ], 403);
             }
