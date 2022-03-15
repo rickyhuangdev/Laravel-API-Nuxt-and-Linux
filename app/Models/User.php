@@ -95,7 +95,7 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
 
     public function teams()
     {
-        return $this->belongsToMany(Team::class)->withTimestamps();
+        return $this->belongsToMany(Team::class,'team_user','user_id','team_id')->withTimestamps();
     }
 
     public function ownedTeams()

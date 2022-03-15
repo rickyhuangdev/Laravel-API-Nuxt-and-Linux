@@ -53,7 +53,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     //like and unlike
     Route::post('designs/{id}/like', 'App\Http\Controllers\Designs\DesignController@like');
     Route::get('designs/{id}/liked', 'App\Http\Controllers\Designs\DesignController@checkIfUserHasLiked');
-
+    //get design by user
+    Route::get('designs/{id}/byUser','App\Http\Controllers\Designs\DesignController@userOwnsDesign');
     //create comment
     Route::post('/designs/{designId}/comments', 'App\Http\Controllers\Designs\CommentController@store');
     Route::put('/comments/{id}', 'App\Http\Controllers\Designs\CommentController@update');

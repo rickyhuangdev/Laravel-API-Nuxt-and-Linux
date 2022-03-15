@@ -38,7 +38,7 @@ class DesignController extends Controller
 
     public function update(Request $request, $id): DesignResource
     {
-        $design = $this->designs->find($id);
+        $design = $this->designs->find($id);;
         $this->authorize('update', $design);
         $this->validate($request, [
             'title' => ['required', 'unique:designs,title,' . $id],
@@ -52,7 +52,7 @@ class DesignController extends Controller
             'description' => $request->description,
             'slug' => Str::slug($request->title),
             'is_live' => !$design->upload_successfully ? false : $request->is_live,
-            'team' => $request->team,
+            'team_id' => $request->team,
         ]);
         //apply the tag
         $this->designs->applyTags($id, $request->tags);
@@ -110,5 +110,14 @@ class DesignController extends Controller
     {
         $designs = $this->designs->withCriteria([new IsLive()])->findWhere('user_id', $userId);
         return DesignResource::collection($designs);
+    }
+
+    public function userOwnsDesign($id)
+    {
+            $design = $this->designs->withCriteria(
+               [ new ForUser(auth()->id())]
+            )->findWhereFirst('id',$id);
+
+            return new DesignResource($design);
     }
 }

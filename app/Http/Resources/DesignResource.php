@@ -14,6 +14,7 @@ class DesignResource extends JsonResource
      */
     public function toArray($request)
     {
+
         return [
             'id' => $this->id,
             'user' => new UserResource($this->whenLoaded('user')),
@@ -35,6 +36,7 @@ class DesignResource extends JsonResource
                 'updated_at' => $this->created_at
             ],
             'team' => $this->team ? [
+                'id' => $this->team->id,
                 'name' => $this->team->name,
                 'slug' => $this->team->slug,
             ] : null,
