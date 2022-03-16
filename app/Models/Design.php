@@ -42,6 +42,7 @@ class Design extends Model
     {
         return $this->belongsTo(Team::class);
     }
+
     public function getHandleImageAttribute()
     {
 
@@ -56,5 +57,12 @@ class Design extends Model
     {
 
         return Storage::disk($this->disk)->url("uploads/designs/{$size}/" . $image);
+    }
+
+    public function getRelatedDesign($user)
+    {
+        $designObj = new self();
+        return $designObj->where(['user_id' => $user->id, 'is_live' => true])->where('id','<>',$this->id)->latest()->limit(4)->get();
+
     }
 }

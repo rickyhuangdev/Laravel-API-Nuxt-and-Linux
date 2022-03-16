@@ -17,10 +17,12 @@ class UserResource extends JsonResource
         return [
             'id' => $this->id,
             'username' => $this->username,
+            'name' => $this->name,
             $this->mergeWhen(auth()->check() && auth()->id() === $this->id, [
                 'email' => $this->email,
             ]),
-            'photo_url'=>$this->photo_url,
+            'photo_url' => $this->photo_url,
+            'location' => $this->location,
             'create_dates' => [
                 'created_at_human' => $this->created_at->diffForHumans()
             ],

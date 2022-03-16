@@ -17,7 +17,7 @@ class DesignResource extends JsonResource
 
         return [
             'id' => $this->id,
-            'user' => new UserResource($this->whenLoaded('user')),
+            'user' => new UserResource($this->user),
             'title' => $this->title,
             'slug' => $this->slug,
             'images' => $this->handle_image,
@@ -40,7 +40,9 @@ class DesignResource extends JsonResource
                 'name' => $this->team->name,
                 'slug' => $this->team->slug,
             ] : null,
-            'comments' => CommentResource::collection($this->whenLoaded('comments')),
+            'related_designs'=>$this->getRelatedDesign($this->user),
+            'comments' => CommentResource::collection($this->comments),
+            'comments_count' =>$this->comments->count(),
             'likes_count' => $this->likes()->count()
         ];
     }

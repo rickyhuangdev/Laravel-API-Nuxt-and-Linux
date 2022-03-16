@@ -90,6 +90,7 @@ class DesignController extends Controller
 
     public function search(Request $request): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
+
         $designs = $this->designs->search($request);
         return DesignResource::collection($designs);
     }
@@ -108,7 +109,7 @@ class DesignController extends Controller
 
     public function getForUser($userId): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
-        $designs = $this->designs->withCriteria([new IsLive()])->findWhere('user_id', $userId);
+        $designs = $this->designs->withCriteria()->findWhere('user_id', $userId);
         return DesignResource::collection($designs);
     }
 

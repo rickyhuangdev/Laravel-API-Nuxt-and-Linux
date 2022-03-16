@@ -45,6 +45,7 @@ class DesignRepository extends BaseRepository implements IDesign
 
     public function search(Request $request)
     {
+
         $query = (new $this->model)->newQuery();
         $query->where('is_live', true);
         if ($request->has_comments) {
@@ -65,7 +66,6 @@ class DesignRepository extends BaseRepository implements IDesign
         } else {
             $query->latest();
         }
-
         return $query->get();
     }
 
