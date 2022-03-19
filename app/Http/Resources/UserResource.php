@@ -31,7 +31,8 @@ class UserResource extends JsonResource
             'about' => $this->about,
             'location' => $this->location,
             'available_to_hire' => $this->available_to_hire,
-            'formatted_address' => $this->formatted_address
+            'formatted_address' => $this->formatted_address,
+            'designs'=>$this->getLiveDesigns()
         ];
     }
 }

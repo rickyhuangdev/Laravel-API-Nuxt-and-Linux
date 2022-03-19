@@ -88,6 +88,11 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         return $this->hasMany(Design::class);
     }
 
+    public function getLiveDesigns()
+    {
+        return $this->designs()->where('is_live',true)->get();
+    }
+
     public function comments()
     {
         return $this->hasMany(Comment::class);

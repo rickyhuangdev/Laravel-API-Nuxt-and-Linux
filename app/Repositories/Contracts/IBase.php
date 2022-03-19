@@ -12,7 +12,7 @@ interface IBase
 
     public function findWhereFirst($column, $value);
 
-    public function paginate($prePage = 10);
+    public function paginate($prePage = 10, $page);
 
     public function create(array $data);
 

@@ -34,6 +34,7 @@ class DesignRepository extends BaseRepository implements IDesign
         } else {
             $design->like();
         }
+        return $design->totalLikes();
     }
 
     public function isLikedByUser($designId)

@@ -21,6 +21,7 @@ class UserRepository extends BaseRepository implements IUser
 
     public function search(Request $request)
     {
+
         $query = (new $this->model)->newQuery();
         //only designer who has the design
         if ($request->has_designs) {
@@ -29,6 +30,12 @@ class UserRepository extends BaseRepository implements IUser
         //check available to hire
         if ($request->available_to_hire) {
             $query->where('available_to_hire', true);
+        }
+        if ($request->keywords) {
+            $query->where(function ($q) use ($request) {
+                $q->where('tagline', 'like', '%' . $request->keywords . '%')
+                    ->orWhere('about', 'like', '%' . $request->keywords . '%');
+            });
         }
         //geographic search
         $lat = $request->latitude;

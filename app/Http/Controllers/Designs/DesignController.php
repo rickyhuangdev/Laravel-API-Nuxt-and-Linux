@@ -24,9 +24,10 @@ class DesignController extends Controller
         $this->designs = $designs;
     }
 
-    public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function index(Request $request): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
-        $designs = $this->designs->withCriteria([new LatestFirst(), new IsLive(), new EagerLoad(['user', 'comments'])])->all();
+
+        $designs = $this->designs->withCriteria([new LatestFirst(), new EagerLoad(['user', 'comments'])])->paginate(1, $request->page);
         return DesignResource::collection($designs);
     }
 
@@ -77,8 +78,8 @@ class DesignController extends Controller
 
     public function like($id): \Illuminate\Http\JsonResponse
     {
-        $this->designs->like($id);
-        return response()->json(['message' => 'Successful']);
+        $likes = $this->designs->like($id);
+        return response()->json(['message' => 'Successful', 'total_likes' => $likes]);
     }
 
     public function checkIfUserHasLiked($designId): \Illuminate\Http\JsonResponse
@@ -115,10 +116,10 @@ class DesignController extends Controller
 
     public function userOwnsDesign($id)
     {
-            $design = $this->designs->withCriteria(
-               [ new ForUser(auth()->id())]
-            )->findWhereFirst('id',$id);
+        $design = $this->designs->withCriteria(
+            [new ForUser(auth()->id())]
+        )->findWhereFirst('id', $id);
 
-            return new DesignResource($design);
+        return new DesignResource($design);
     }
 }

@@ -40,9 +40,9 @@ abstract class BaseRepository implements IBase, ICriteria
         return $this->model->where($column, $value)->firstOrFail();
     }
 
-    public function paginate($prePage = 10)
+    public function paginate($prePage = 10, $page)
     {
-        return $this->model->paginate($prePage);
+        return $this->model->paginate($prePage, ['*'], 'page', $page);
     }
 
     public function create(array $data)
