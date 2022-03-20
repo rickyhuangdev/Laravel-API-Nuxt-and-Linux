@@ -15,4 +15,5 @@ class Specialty extends Model
         'state',
         'sort_order'
     ];
+
 }

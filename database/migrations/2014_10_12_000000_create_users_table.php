@@ -26,6 +26,7 @@ class CreateUsersTable extends Migration
             $table->string('formatted_address')->nullable();
             $table->boolean('available_to_hire')->default(false);
             $table->string('image')->nullable();
+            $table->unsignedInteger('specialty_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

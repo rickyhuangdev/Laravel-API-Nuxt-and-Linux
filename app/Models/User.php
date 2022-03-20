@@ -138,4 +138,9 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
             $query->where('user_id', $user_id);
         })->first();
     }
+
+    public function specialty()
+    {
+        return $this->belongsTo(Specialty::class);
+    }
 }
