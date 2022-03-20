@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration
             $table->point('location')->nullable();
             $table->string('formatted_address')->nullable();
             $table->boolean('available_to_hire')->default(false);
+            $table->string('image')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

@@ -37,4 +37,5 @@ class UserController extends Controller
         $user = $this->users->findWhereFirst('username',$username);
         return new UserResource($user);
     }
+
 }

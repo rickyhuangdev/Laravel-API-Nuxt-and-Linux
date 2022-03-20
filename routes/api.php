@@ -79,6 +79,11 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::put('chats/{id}/markAsRead', 'App\Http\Controllers\Chat\ChatController@markAsRead');
     Route::delete('messages/{id}', 'App\Http\Controllers\Chat\ChatController@destroyMessage');
 
+    //upload user image
+    Route::post('user/image', 'App\Http\Controllers\User\SettingController@uploadImage');
+
+
+
 });
 
 

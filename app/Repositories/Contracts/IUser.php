@@ -9,4 +9,6 @@ interface IUser
     public function findByEmail($email);
 
     public function search(Request $request);
+
+    public function uploadUserImage(Request $request);
 }

@@ -9,6 +9,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\HasApiTokens;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
@@ -60,6 +61,9 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
 
     public function getPhotoUrlAttribute()
     {
+        if ($this->image != null) {
+            return Storage::disk(config('site.upload_disk'))->url("uploads/user/original/" . $this->image);
+        }
         return "https://www.gravatar.com/avatar/" . md5(strtolower($this->email)) . "jpg?s=200&d=mm";
     }
 
@@ -90,7 +94,7 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
 
     public function getLiveDesigns()
     {
-        return $this->designs()->where('is_live',true)->get();
+        return $this->designs()->where('is_live', true)->get();
     }
 
     public function comments()
@@ -100,7 +104,7 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
 
     public function teams()
     {
-        return $this->belongsToMany(Team::class,'team_user','user_id','team_id')->withTimestamps();
+        return $this->belongsToMany(Team::class, 'team_user', 'user_id', 'team_id')->withTimestamps();
     }
 
     public function ownedTeams()

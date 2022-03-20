@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Eloquent;
 
+use App\Jobs\UploadImage;
 use App\Models\User;
 use App\Repositories\Contracts\IUser;
 use Grimzy\LaravelMysqlSpatial\Types\Point;
@@ -58,6 +59,25 @@ class UserRepository extends BaseRepository implements IUser
         }
 
         return $query->get();
+    }
+
+    public function uploadUserImage(Request $request)
+    {
+        $this->validate($request, [
+            'image' => ['required', 'mimes:jpeg,gif,bmp,png', 'max:200']
+        ]);
+        //get the images
+        $image = $request->file('image');
+        $filename = $image->hashName();
+        // move the image to the temporary
+        $tmp = $image->storeAs('uploads/original', $filename, 'tmp');
+        // create the database record for the design
+        $user = auth()->user()->update([
+            'image' => $filename,
+        ]);
+        //dispatch a job to handle the image manipulation
+        $this->dispatch(new UploadImage($user));
+        return $user;
     }
 
 }
