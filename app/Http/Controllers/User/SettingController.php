@@ -18,8 +18,9 @@ class SettingController extends Controller
         $user = auth()->user();
         $this->validate($request, [
             'tagline' => ['required'],
-            'name' => ['required','min:5','max:12'],
+            'name' => ['required', 'min:5', 'max:12'],
             'about' => ['required', 'string', 'min:20'],
+            'specialty_id' => ['required', 'integer'],
             'formatted_address' => ['required'],
             'location.latitude' => ['required', 'between:-90,90'],
             'location.longitude' => ['required', 'between:-180,180'],
@@ -33,6 +34,7 @@ class SettingController extends Controller
             'formatted_address' => $request->formatted_address,
             'available_to_hire' => $request->available_to_hire,
             'location' => $location,
+            'specialty_id' => $request->specialty_id
 
         ]);
 

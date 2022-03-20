@@ -32,7 +32,7 @@ class UserResource extends JsonResource
             'available_to_hire' => $this->available_to_hire,
             'formatted_address' => $this->formatted_address,
             'live_designs' => $this->getLiveDesigns(),
-            'specialties'=>$this->specialty
+            'specialty' => $this->specialty
         ];
     }
 }
