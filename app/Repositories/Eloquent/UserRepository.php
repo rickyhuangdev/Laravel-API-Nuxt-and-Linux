@@ -38,16 +38,19 @@ class UserRepository extends BaseRepository implements IUser
                     ->orWhere('about', 'like', '%' . $request->keywords . '%');
             });
         }
+        if ($request->specialty) {
+            $query->where('specialty_id', $request->specialty);
+        }
         //geographic search
         $lat = $request->latitude;
         $lng = $request->longitude;
         $dist = $request->distance;
-        $unit = $request->unit;
+        $unit = strtolower($request->unit);
         if ($lat && $lng) {
             $point = new Point($lat, $lng);
             $dist = $dist * 1000;
             $unit === 'km' ? $dist *= 1000 : $dist *= 1609.34;
-            $query->distanceSphereExcludingSelf('location', $point, $dist);
+            $query->distanceSphere('location', $point, $dist);
         }
         //order the result
         if ($request->orderBy === 'closest') {

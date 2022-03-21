@@ -27,7 +27,6 @@ class UserController extends Controller
 
     public function search(Request $request)
     {
-
         $designers = $this->users->search($request);
         return UserResource::collection($designers);
     }
