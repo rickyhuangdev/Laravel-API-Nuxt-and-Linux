@@ -27,7 +27,7 @@ class DesignController extends Controller
     public function index(Request $request): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
 
-        $designs = $this->designs->withCriteria([new LatestFirst(), new EagerLoad(['user', 'comments'])])->paginate(1, $request->page);
+        $designs = $this->designs->withCriteria([new LatestFirst(), new EagerLoad(['user', 'comments'])])->paginate(30, $request->page);
         return DesignResource::collection($designs);
     }
 

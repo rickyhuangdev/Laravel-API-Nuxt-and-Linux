@@ -49,10 +49,10 @@ class DesignRepository extends BaseRepository implements IDesign
 
         $query = (new $this->model)->newQuery();
         $query->where('is_live', true);
-        if ($request->has_comments) {
+        if ((int)$request->has_comments) {
             $query->has('comments');
         }
-        if ($request->has_team) {
+        if ((int)$request->has_team) {
             $query->has('team');
         }
         if ($request->q) {
